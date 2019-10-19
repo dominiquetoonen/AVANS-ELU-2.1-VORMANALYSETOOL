@@ -19,7 +19,6 @@ public class Controller {
                 System.out.println(resultSet.getString("SHAPE_ID"));
             }
 
-
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }

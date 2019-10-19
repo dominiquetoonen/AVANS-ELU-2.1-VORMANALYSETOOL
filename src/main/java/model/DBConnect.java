@@ -11,6 +11,7 @@ public class DBConnect {
 
     private String username;
     private String password;
+
     private Statement statement = null;
     private Connection connection = null;
 
