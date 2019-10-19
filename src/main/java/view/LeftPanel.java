@@ -1,9 +1,9 @@
-package nl.avans.vatCalculator.view;
+package view;
 
 import java.awt.*;
 import javax.swing.*;
+import controller.Controller;
 import javax.swing.border.EmptyBorder;
-import nl.avans.vatCalculator.Controller;
 
 class LeftPanel extends JPanel {
 

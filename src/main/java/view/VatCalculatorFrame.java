@@ -1,8 +1,8 @@
-package nl.avans.vatCalculator.view;
+package view;
 
 import java.awt.*;
 import javax.swing.*;
-import nl.avans.vatCalculator.Controller;
+import controller.Controller;
 
 public class VatCalculatorFrame extends JFrame implements Runnable {
 
@@ -17,7 +17,6 @@ public class VatCalculatorFrame extends JFrame implements Runnable {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
     }
-
 
     @Override
     public void run() {

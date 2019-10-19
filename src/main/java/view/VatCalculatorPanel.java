@@ -1,8 +1,8 @@
-package nl.avans.vatCalculator.view;
+package view;
 
 import java.awt.*;
 import javax.swing.*;
-import nl.avans.vatCalculator.Controller;
+import controller.Controller;
 
 class VatCalculatorPanel extends JPanel {
 
