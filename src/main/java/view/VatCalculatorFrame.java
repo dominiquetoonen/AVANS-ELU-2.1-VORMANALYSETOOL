@@ -1,20 +1,18 @@
 package view;
 
-import java.awt.*;
 import javax.swing.*;
-import controller.Controller;
+import java.awt.*;
 
 public class VatCalculatorFrame extends JFrame implements Runnable {
-
-    public VatCalculatorFrame(Controller controller) {
+    public VatCalculatorFrame() {
         super("Vorm Applicatie");
 
         setSize(new Dimension(600, 500));
-
-        setLocationRelativeTo(null);
-        setContentPane(new VatCalculatorPanel(controller));
+        setContentPane(new VatCalculatorPanel());
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 

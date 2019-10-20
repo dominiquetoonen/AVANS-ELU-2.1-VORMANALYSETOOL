@@ -1,13 +1,17 @@
 package controller;
 
 import javax.swing.*;
-import model.DBConnect;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import view.VatCalculatorFrame;
 
-public class Controller {
+public class Main {
     public static void main(String[] args) {
+//        connectToDatabase();
+        SwingUtilities.invokeLater(new VatCalculatorFrame());
+    }
+
+    public static void connectToDatabase() {
         DBConnect db = new DBConnect("root", "");
         String sql = "SELECT * FROM shapes";
 
@@ -22,7 +26,5 @@ public class Controller {
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
-        SwingUtilities.invokeLater(new VatCalculatorFrame(new Controller()));
     }
 }
