@@ -1,6 +1,7 @@
 package view;
 
 import controller.AddShape;
+import mapper.Shapes;
 import model.Cube;
 import model.Cylinder;
 import model.Sphere;
@@ -51,6 +52,28 @@ class VatCalculatorPanel extends JPanel {
         return panel;
     }
 
+    private JPanel rightPanel() {
+        JPanel panel = new DefaultPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        JList jList = new JList<>(getTextList().toArray());
+        jList.setFont(new Font(getFont().getFontName(), getFont().getStyle(), getFont().getSize() + 2));
+        panel.add(new JScrollPane(jList), BorderLayout.CENTER);
+
+        JButton saveButton = new DefaultButton("Totale inhoud");
+        saveButton.addActionListener(e -> System.out.println("Totale inhoud"));
+        panel.add(saveButton);
+
+        int shapeId = 3;
+
+        JButton loadButton = new DefaultButton("Verwijder vorm");
+        loadButton.addActionListener(e -> new Shapes().delete(shapeId));
+        panel.add(loadButton);
+
+
+        return panel;
+    }
+
     private ArrayList<String> getTextList() {
         ArrayList<HashMap> results = new mapper.Shapes().all();
         ArrayList<String> textList = new ArrayList<>();
@@ -87,27 +110,5 @@ class VatCalculatorPanel extends JPanel {
         }
 
         return textList;
-    }
-
-    private JPanel rightPanel() {
-        JPanel panel = new DefaultPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
-
-        JList jList = new JList<>(getTextList().toArray());
-        jList.setFont(new Font(getFont().getFontName(), getFont().getStyle(), getFont().getSize() + 2));
-
-        panel.add(new JScrollPane(jList), BorderLayout.CENTER);
-
-
-        JButton saveButton = new DefaultButton("Totale inhoud");
-        saveButton.addActionListener(e -> System.out.println("Totale inhoud"));
-        panel.add(saveButton);
-
-        JButton loadButton = new DefaultButton("Verwijder Vorm");
-        loadButton.addActionListener(e -> System.out.println("Verwijder Vorm"));
-        panel.add(loadButton);
-
-        return panel;
     }
 }

@@ -1,5 +1,7 @@
 package view;
 
+import controller.Shapes;
+
 import javax.swing.*;
 import java.awt.*;
 

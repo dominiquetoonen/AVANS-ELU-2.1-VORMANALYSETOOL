@@ -8,20 +8,34 @@ import java.sql.SQLException;
 import java.util.HashMap;
 
 abstract public class AbstractMapper {
-    public ArrayList<HashMap> all() {
-        ArrayList<HashMap> results = new ArrayList<>();
-        ArrayList<String> columns = new ArrayList<>();
+    private DBConnect dbConnect;
+    private ArrayList<String> columns;
 
+    AbstractMapper() {
+        dbConnect = new DBConnect("root", "");
+        columns = new ArrayList<>();
 
-        DBConnect db = new DBConnect("root", "");
         try {
-            db.connect();
+            dbConnect.connect();
 
-            ResultSet resultSet = db.getStatement().executeQuery("SELECT * FROM " + getTableName());
+            ResultSet resultSet = dbConnect.getStatement().executeQuery("SELECT * FROM " + getTableName());
 
             for (int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++) {
                 columns.add(resultSet.getMetaData().getColumnName(i));
             }
+
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public ArrayList<HashMap> all() {
+        ArrayList<HashMap> results = new ArrayList<>();
+
+        try {
+            dbConnect.connect();
+
+            ResultSet resultSet = dbConnect.getStatement().executeQuery("SELECT * FROM " + getTableName());
 
             while (resultSet.next()) {
                 HashMap<String, String> row = new HashMap<>();
@@ -38,6 +52,22 @@ abstract public class AbstractMapper {
         }
 
         return results;
+    }
+
+    // TODO: Fix possibility of SQL injection
+    public boolean delete(int id) {
+        try {
+            dbConnect.connect();
+
+            int deletedRows = dbConnect.getStatement().executeUpdate("DELETE FROM " + getTableName() + " WHERE SHAPE_ID = " + id);
+
+            return deletedRows > 0;
+
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
     abstract String getTableName();
