@@ -1,7 +1,7 @@
 package model;
 
 public class Cube implements Shape {
-    public static String name = "Blok";
+    public static final String name = "Blok";
 
     private double length;
     private double width;

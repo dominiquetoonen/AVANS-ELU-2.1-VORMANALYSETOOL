@@ -1,7 +1,7 @@
 package model;
 
 public class Cylinder implements Shape {
-    public static String name = "Cilinder";
+    public static final String name = "Cilinder";
 
     private double radius;
     private double height;

@@ -1,7 +1,7 @@
 package model;
 
 public class Sphere implements Shape {
-    public static String name = "Bol";
+    public static final String name = "Bol";
 
     private double radius;
 
