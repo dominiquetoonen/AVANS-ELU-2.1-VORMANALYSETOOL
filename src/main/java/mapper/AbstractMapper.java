@@ -1,41 +1,57 @@
 package mapper;
 
-import controller.DBConnect;
+import model.Shape;
 
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
-import java.sql.SQLException;
 import java.util.HashMap;
 
 abstract public class AbstractMapper {
-    private DBConnect dbConnect;
-    private ArrayList<String> columns;
+    private final String DRIVER = "com.mysql.jdbc.Driver";
+    private final String DB_PATH = "jdbc:mysql://localhost:3306/vat_calculator";
+
+    private String username;
+    private String password;
+    private Statement statement;
+    private Connection connection;
+    private ArrayList<String> columns = new ArrayList<>();;
 
     AbstractMapper() {
-        dbConnect = new DBConnect("root", "");
-        columns = new ArrayList<>();
+        username = "root";
+        password = "";
 
         try {
-            dbConnect.connect();
-
-            ResultSet resultSet = dbConnect.getStatement().executeQuery("SELECT * FROM " + getTableName());
+            connect();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + getTableName());
 
             for (int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++) {
                 columns.add(resultSet.getMetaData().getColumnName(i));
             }
+
+            closeConnection();
 
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
     }
 
+    private void connect() throws ClassNotFoundException, SQLException {
+        Class.forName(DRIVER);
+        connection = DriverManager.getConnection(DB_PATH, username, password);
+        statement = connection.createStatement();
+    }
+
+    private void closeConnection() throws SQLException {
+        statement.close();
+        connection.close();
+    }
+
     public ArrayList<HashMap> all() {
         ArrayList<HashMap> results = new ArrayList<>();
 
         try {
-            dbConnect.connect();
-
-            ResultSet resultSet = dbConnect.getStatement().executeQuery("SELECT * FROM " + getTableName());
+            connect();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + getTableName());
 
             while (resultSet.next()) {
                 HashMap<String, String> row = new HashMap<>();
@@ -57,11 +73,11 @@ abstract public class AbstractMapper {
     // TODO: Fix possibility of SQL injection
     public boolean delete(int id) {
         try {
-            dbConnect.connect();
+            connect();
 
-            int deletedRows = dbConnect.getStatement().executeUpdate("DELETE FROM " + getTableName() + " WHERE SHAPE_ID = " + id);
+            int deletedRows = statement.executeUpdate("DELETE FROM " + getTableName() + " WHERE SHAPE_ID = " + id);
 
-            return deletedRows > 0;
+            return (deletedRows > 0);
 
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
@@ -71,4 +87,5 @@ abstract public class AbstractMapper {
     }
 
     abstract String getTableName();
+    abstract ArrayList<Shape> getModels();
 }

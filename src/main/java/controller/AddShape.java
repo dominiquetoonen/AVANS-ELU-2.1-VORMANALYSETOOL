@@ -10,29 +10,37 @@ import view.AddSpherePanel;
 import view.AddCylinderPanel;
 
 import java.awt.*;
+import java.util.Objects;
 
 public class AddShape {
     public AddShape(JComboBox jComboBox) {
-        if (jComboBox.getSelectedItem() == Cube.name) {
-            AddShapeFrame frame = new AddShapeFrame(Cube.name);
-            frame.setSize(new Dimension(600, 300));
-            frame.setContentPane(new AddCubePanel(frame));
+        AddShapeFrame frame;
 
-            SwingUtilities.invokeLater(frame);
+        switch (Objects.requireNonNull(jComboBox.getSelectedItem()).toString()) {
+            case Cube.name:
+                frame = new AddShapeFrame(Cube.name);
+                frame.setSize(new Dimension(600, 300));
+                frame.setContentPane(new AddCubePanel(frame));
 
-        } else if (jComboBox.getSelectedItem() == Cylinder.name) {
-            AddShapeFrame frame = new AddShapeFrame(Cylinder.name);
-            frame.setSize(new Dimension(600, 200));
-            frame.setContentPane(new AddCylinderPanel(frame));
+                SwingUtilities.invokeLater(frame);
 
-            SwingUtilities.invokeLater(frame);
+                break;
+            case Sphere.name:
+                frame = new AddShapeFrame(Sphere.name);
+                frame.setSize(new Dimension(600, 200));
+                frame.setContentPane(new AddSpherePanel(frame));
 
-        } else if (jComboBox.getSelectedItem() == Sphere.name) {
-            AddShapeFrame frame = new AddShapeFrame(Sphere.name);
-            frame.setSize(new Dimension(600, 200));
-            frame.setContentPane(new AddSpherePanel(frame));
+                SwingUtilities.invokeLater(frame);
 
-            SwingUtilities.invokeLater(frame);
+                break;
+            case Cylinder.name:
+                frame = new AddShapeFrame(Cylinder.name);
+                frame.setSize(new Dimension(600, 200));
+                frame.setContentPane(new AddCylinderPanel(frame));
+
+                SwingUtilities.invokeLater(frame);
+
+                break;
         }
     }
 }

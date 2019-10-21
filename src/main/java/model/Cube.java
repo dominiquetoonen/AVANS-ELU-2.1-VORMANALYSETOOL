@@ -1,6 +1,6 @@
 package model;
 
-public class Cube implements Shape {
+public class Cube extends Shape {
     public static final String name = "Blok";
 
     private double length;
@@ -29,6 +29,11 @@ public class Cube implements Shape {
 
     public void setHeight(double height) {
         this.height = height;
+    }
+
+    @Override
+    public String getTitle() {
+        return getType() + " " + getLength() + " " + getWidth() + " " + getHeight() + "\n";
     }
 
     @Override

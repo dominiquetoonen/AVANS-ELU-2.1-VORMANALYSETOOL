@@ -1,6 +1,6 @@
 package model;
 
-public class Sphere implements Shape {
+public class Sphere extends Shape {
     public static final String name = "Bol";
 
     private double radius;
@@ -11,6 +11,11 @@ public class Sphere implements Shape {
 
     public void setRadius(double radius) {
         this.radius = radius;
+    }
+
+    @Override
+    public String getTitle() {
+        return getType() + " " + getRadius() + "\n";
     }
 
     @Override

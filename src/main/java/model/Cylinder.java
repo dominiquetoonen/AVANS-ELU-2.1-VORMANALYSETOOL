@@ -1,6 +1,6 @@
 package model;
 
-public class Cylinder implements Shape {
+public class Cylinder extends Shape {
     public static final String name = "Cilinder";
 
     private double radius;
@@ -20,6 +20,11 @@ public class Cylinder implements Shape {
 
     public void setHeight(double height) {
         this.height = height;
+    }
+
+    @Override
+    public String getTitle() {
+        return getType() + " " + getRadius() + " " + getHeight() + "\n";
     }
 
     @Override

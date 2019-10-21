@@ -2,8 +2,10 @@ package view;
 
 import controller.AddShape;
 import mapper.Shapes;
+import model.AbstractModel;
 import model.Cube;
 import model.Cylinder;
+import model.Shape;
 import model.Sphere;
 
 import java.awt.*;
@@ -70,43 +72,15 @@ class VatCalculatorPanel extends JPanel {
         loadButton.addActionListener(e -> new Shapes().delete(shapeId));
         panel.add(loadButton);
 
-
         return panel;
     }
 
     private ArrayList<String> getTextList() {
-        ArrayList<HashMap> results = new mapper.Shapes().all();
+        ArrayList<Shape> shapes = new Shapes().getModels();
         ArrayList<String> textList = new ArrayList<>();
 
-        for (HashMap result : results) {
-            String shapeType = result.get("SHAPE_TYPE").toString();
-            float shapeLength = Float.parseFloat(result.get("SHAPE_LENGTH").toString());
-            float shapeWidth = Float.parseFloat(result.get("SHAPE_WIDTH").toString());
-            float shapeHeight = Float.parseFloat(result.get("SHAPE_HEIGHT").toString());
-            float shapeRadius = Float.parseFloat(result.get("SHAPE_RADIUS").toString());
-
-            StringBuilder text = new StringBuilder();
-            switch (shapeType) {
-                case Cube.name:
-                    text
-                            .append(shapeType).append(" ")
-                            .append(shapeLength).append(" ")
-                            .append(shapeWidth).append(" ")
-                            .append(shapeHeight).append("\n");
-                    break;
-                case Sphere.name:
-                    text
-                            .append(shapeType).append(" ")
-                            .append(shapeRadius).append("\n");
-                    break;
-                case Cylinder.name:
-                    text
-                            .append(shapeType).append(" ")
-                            .append(shapeRadius).append(" ")
-                            .append(shapeHeight).append("\n");
-                    break;
-            }
-            textList.add(text.toString());
+        for (Shape shape : shapes) {
+            textList.add(shape.getTitle());
         }
 
         return textList;

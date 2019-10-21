@@ -1,9 +1,7 @@
 package view;
 
-import controller.Shapes;
-
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 public class VatCalculatorFrame extends JFrame implements Runnable {
     public VatCalculatorFrame() {
