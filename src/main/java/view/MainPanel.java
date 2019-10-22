@@ -15,8 +15,8 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
-class VatCalculatorPanel extends JPanel {
-    VatCalculatorPanel() {
+class MainPanel extends JPanel {
+    MainPanel() {
         setLayout(new GridLayout(1, 2));
 
         add(leftPanel());
@@ -76,7 +76,7 @@ class VatCalculatorPanel extends JPanel {
     }
 
     private ArrayList<String> getTextList() {
-        ArrayList<Shape> shapes = new Shapes().getModels();
+        ArrayList<Shape> shapes = new Shapes().all();
         ArrayList<String> textList = new ArrayList<>();
 
         for (Shape shape : shapes) {

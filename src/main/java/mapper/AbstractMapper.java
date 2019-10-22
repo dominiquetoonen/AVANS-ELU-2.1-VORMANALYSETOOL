@@ -12,7 +12,8 @@ abstract public class AbstractMapper {
 
     private String username;
     private String password;
-    private Statement statement;
+    protected Statement stmt;
+    private ResultSet resultSet;
     private Connection connection;
     private ArrayList<String> columns = new ArrayList<>();;
 
@@ -22,7 +23,7 @@ abstract public class AbstractMapper {
 
         try {
             connect();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + getTableName());
+            resultSet = stmt.executeQuery("SELECT * FROM " + getTableName());
 
             for (int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++) {
                 columns.add(resultSet.getMetaData().getColumnName(i));
@@ -35,39 +36,15 @@ abstract public class AbstractMapper {
         }
     }
 
-    private void connect() throws ClassNotFoundException, SQLException {
+    protected void connect() throws ClassNotFoundException, SQLException {
         Class.forName(DRIVER);
         connection = DriverManager.getConnection(DB_PATH, username, password);
-        statement = connection.createStatement();
+        stmt = connection.createStatement();
     }
 
-    private void closeConnection() throws SQLException {
-        statement.close();
+    protected void closeConnection() throws SQLException {
+        stmt.close();
         connection.close();
-    }
-
-    public ArrayList<HashMap> all() {
-        ArrayList<HashMap> results = new ArrayList<>();
-
-        try {
-            connect();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + getTableName());
-
-            while (resultSet.next()) {
-                HashMap<String, String> row = new HashMap<>();
-
-                for (String column : columns) {
-                    row.put(column, resultSet.getString(column));
-                }
-
-                results.add(row);
-            }
-
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-        }
-
-        return results;
     }
 
     // TODO: Fix possibility of SQL injection
@@ -75,7 +52,7 @@ abstract public class AbstractMapper {
         try {
             connect();
 
-            int deletedRows = statement.executeUpdate("DELETE FROM " + getTableName() + " WHERE SHAPE_ID = " + id);
+            int deletedRows = stmt.executeUpdate("DELETE FROM " + getTableName() + " WHERE SHAPE_ID = " + id);
 
             return (deletedRows > 0);
 
@@ -87,5 +64,4 @@ abstract public class AbstractMapper {
     }
 
     abstract String getTableName();
-    abstract ArrayList<Shape> getModels();
 }

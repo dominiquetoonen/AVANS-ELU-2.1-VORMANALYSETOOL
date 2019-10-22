@@ -3,12 +3,12 @@ package view;
 import java.awt.*;
 import javax.swing.*;
 
-public class VatCalculatorFrame extends JFrame implements Runnable {
-    public VatCalculatorFrame() {
+public class MainFrame extends JFrame implements Runnable {
+    public MainFrame() {
         super("Vorm Applicatie");
 
         setSize(new Dimension(600, 500));
-        setContentPane(new VatCalculatorPanel());
+        setContentPane(new MainPanel());
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
