@@ -1,10 +1,7 @@
 package mapper;
 
-import model.Shape;
-
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 abstract public class AbstractMapper {
     private final String DRIVER = "com.mysql.jdbc.Driver";
@@ -15,7 +12,7 @@ abstract public class AbstractMapper {
     protected Statement stmt;
     private ResultSet resultSet;
     private Connection connection;
-    private ArrayList<String> columns = new ArrayList<>();;
+    private ArrayList<String> columns = new ArrayList<>();
 
     AbstractMapper() {
         username = "root";

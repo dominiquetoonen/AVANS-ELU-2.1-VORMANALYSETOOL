@@ -1,11 +1,9 @@
-package view;
+package view.components;
 
 import mapper.Shapes;
 import model.Cube;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;

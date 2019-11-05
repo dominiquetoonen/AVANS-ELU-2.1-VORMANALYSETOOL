@@ -1,6 +1,6 @@
 package model;
 
-abstract public class Shape extends AbstractModel {
+abstract public class Shape {
     private int id;
     private String type;
 

@@ -4,10 +4,10 @@ import model.Cube;
 import model.Sphere;
 import javax.swing.*;
 import model.Cylinder;
-import view.AddCubePanel;
+import view.components.AddCubePanel;
 import view.AddShapeFrame;
-import view.AddSpherePanel;
-import view.AddCylinderPanel;
+import view.components.AddSpherePanel;
+import view.components.AddCylinderPanel;
 
 import java.awt.*;
 import java.util.Objects;
