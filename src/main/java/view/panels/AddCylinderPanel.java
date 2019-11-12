@@ -1,22 +1,27 @@
-package view.components;
+package view.panels;
 
 import java.awt.*;
-import model.Sphere;
 import javax.swing.*;
 import mapper.Shapes;
+import model.Cylinder;
+import view.components.DefaultButton;
+import view.components.DefaultPanel;
+import view.panels.MainPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-public class AddSpherePanel extends JPanel {
+public class AddCylinderPanel extends JPanel {
     private JFrame frame;
-    private Sphere sphere;
+    private Cylinder cylinder;
+    private JTextField heightTextField;
     private JTextField radiusTextField;
 
-    public AddSpherePanel(JFrame frame) {
+    public AddCylinderPanel(JFrame frame) {
         this.frame = frame;
-        sphere = new Sphere();
-        sphere.setType(Sphere.name);
+        cylinder = new Cylinder();
+        cylinder.setType(Cylinder.name);
+        heightTextField = new JTextField();
         radiusTextField = new JTextField();
 
         setLayout(new GridLayout(2, 2));
@@ -28,13 +33,31 @@ public class AddSpherePanel extends JPanel {
         add(leftBottom());
         add(rightBottom());
     }
-    
+
     private void setListeners() {
+        heightTextField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                if (!heightTextField.getText().equals("")) {
+                    cylinder.setHeight(Double.parseDouble(heightTextField.getText()));
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+
+            }
+        });
         radiusTextField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 if (!radiusTextField.getText().equals("")) {
-                    sphere.setRadius(Double.parseDouble(radiusTextField.getText()));
+                    cylinder.setRadius(Double.parseDouble(radiusTextField.getText()));
                 }
             }
 
@@ -66,6 +89,9 @@ public class AddSpherePanel extends JPanel {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(new EmptyBorder(20, 20, 10, 20));
 
+        panel.add(new JLabel("Hoogte"));
+        panel.add(heightTextField);
+
         return panel;
     }
 
@@ -76,8 +102,9 @@ public class AddSpherePanel extends JPanel {
 
         JButton button = new DefaultButton("OK");
         button.addActionListener(e -> {
-            if (new Shapes().saveSphere(sphere)) {
+            if (new Shapes().saveCylinder(cylinder)) {
                 frame.dispose();
+                MainPanel.refreshList();
             }
         });
         panel.add(button);

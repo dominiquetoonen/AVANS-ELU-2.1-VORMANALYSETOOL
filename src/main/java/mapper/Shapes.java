@@ -1,6 +1,9 @@
 package mapper;
 
-import model.*;
+import model.Cube;
+import model.Cylinder;
+import model.Shape;
+import model.Sphere;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
