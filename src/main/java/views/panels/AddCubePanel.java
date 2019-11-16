@@ -1,11 +1,11 @@
-package view.panels;
+package views.panels;
 
-import model.Cube;
+import models.Cube;
 import java.awt.*;
 import javax.swing.*;
-import mapper.Shapes;
-import view.components.DefaultPanel;
-import view.components.DefaultButton;
+import mappers.Shapes;
+import views.components.DefaultPanel;
+import views.components.DefaultButton;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;

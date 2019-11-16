@@ -1,15 +1,28 @@
-package mapper;
+package mappers;
 
-import model.Cube;
-import model.Cylinder;
-import model.Shape;
-import model.Sphere;
-
+import models.Cube;
+import models.Shape;
+import models.Sphere;
+import models.Cylinder;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
+import java.sql.SQLException;
 
 public class Shapes extends AbstractMapper {
+    @Override
+    String getTableName() {
+        return "shapes";
+    }
+
+    public Shape findById(int id) {
+        for (Shape s : all()) {
+            if (s.getId() == id) {
+                return s;
+            }
+        }
+
+        return null;
+    }
 
     public ArrayList<Shape> all() {
         ArrayList<Shape> results = new ArrayList<>();
@@ -57,6 +70,8 @@ public class Shapes extends AbstractMapper {
                 }
             }
 
+            closeConnection();
+
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
@@ -70,6 +85,8 @@ public class Shapes extends AbstractMapper {
             int createdRows = stmt.executeUpdate(
                     "INSERT INTO " + getTableName() + " (SHAPE_TYPE, SHAPE_LENGTH, SHAPE_WIDTH, SHAPE_HEIGHT)" + " VALUES ('" + cube.getType() + "', " + cube.getLength() + ", " + cube.getWidth() + ", " + cube.getHeight() + ")"
             );
+
+            closeConnection();
 
             return createdRows > 0;
         } catch (ClassNotFoundException | SQLException e) {
@@ -85,6 +102,8 @@ public class Shapes extends AbstractMapper {
                     "INSERT INTO " + getTableName() + " (SHAPE_TYPE, SHAPE_RADIUS)" + "VALUES ('" + sphere.getType() + "', " + sphere.getRadius() + ")"
             );
 
+            closeConnection();
+
             return createdRows > 0;
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
@@ -99,15 +118,12 @@ public class Shapes extends AbstractMapper {
                     "INSERT INTO " + getTableName() + " (SHAPE_TYPE, SHAPE_HEIGHT, SHAPE_RADIUS)" + "VALUES ('" + cylinder.getType() + "', " + cylinder.getHeight() + ", " + cylinder.getRadius() + ")"
             );
 
+            closeConnection();
+
             return createdRows > 0;
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
         return false;
-    }
-
-    @Override
-    String getTableName() {
-        return "shapes";
     }
 }

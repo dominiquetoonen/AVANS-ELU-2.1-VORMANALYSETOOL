@@ -1,15 +1,15 @@
-package controller;
+package controllers;
 
 import java.awt.*;
-import model.Cube;
-import model.Sphere;
+import models.Cube;
+import models.Sphere;
 import javax.swing.*;
-import model.Cylinder;
+import models.Cylinder;
 import java.util.Objects;
-import view.AddShapeFrame;
-import view.panels.AddCubePanel;
-import view.panels.AddSpherePanel;
-import view.panels.AddCylinderPanel;
+import views.AddShapeFrame;
+import views.panels.AddCubePanel;
+import views.panels.AddSpherePanel;
+import views.panels.AddCylinderPanel;
 
 public class AddShape {
     public AddShape(JComboBox jComboBox) {

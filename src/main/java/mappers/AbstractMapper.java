@@ -1,39 +1,40 @@
-package mapper;
+package mappers;
 
 import java.sql.*;
 import java.util.ArrayList;
 
 abstract public class AbstractMapper {
-    private final String DRIVER = "com.mysql.jdbc.Driver";
-    private final String DB_PATH = "jdbc:mysql://localhost:3306/vat_calculator";
 
-    private String username;
-    private String password;
-    protected Statement stmt;
     private ResultSet resultSet;
     private Connection connection;
-    private ArrayList<String> columns = new ArrayList<>();
+
+    protected Statement stmt;
+    protected ArrayList<String> columns = new ArrayList<>();
 
     AbstractMapper() {
-        username = "root";
-        password = "";
-
         try {
             connect();
-            resultSet = stmt.executeQuery("SELECT * FROM " + getTableName());
+            ResultSet resultSet = stmt.executeQuery("SELECT * FROM " + getTableName());
 
             for (int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++) {
+//                System.out.println(resultSet.getMetaData().getColumnTypeName(i));
+//                System.out.println(resultSet.getMetaData().getColumnName(i));
                 columns.add(resultSet.getMetaData().getColumnName(i));
             }
 
             closeConnection();
-
         } catch (ClassNotFoundException | SQLException e) {
+
             e.printStackTrace();
         }
     }
 
     protected void connect() throws ClassNotFoundException, SQLException {
+        String DRIVER = "com.mysql.jdbc.Driver";
+        String DB_PATH = "jdbc:mysql://localhost:3306/vat_calculator";
+        String username = "root";
+        String password = "";
+
         Class.forName(DRIVER);
         connection = DriverManager.getConnection(DB_PATH, username, password);
         stmt = connection.createStatement();
@@ -44,7 +45,6 @@ abstract public class AbstractMapper {
         connection.close();
     }
 
-    // TODO: Fix possibility of SQL injection
     public boolean delete(int id) {
         try {
             connect();

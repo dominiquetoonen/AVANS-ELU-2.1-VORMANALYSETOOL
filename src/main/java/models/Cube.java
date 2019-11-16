@@ -1,4 +1,4 @@
-package model;
+package models;
 
 public class Cube extends Shape {
     public static final String name = "Blok";

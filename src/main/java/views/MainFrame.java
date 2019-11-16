@@ -1,6 +1,6 @@
-package view;
+package views;
 
-import view.panels.MainPanel;
+import views.panels.MainPanel;
 
 import java.awt.*;
 import javax.swing.*;

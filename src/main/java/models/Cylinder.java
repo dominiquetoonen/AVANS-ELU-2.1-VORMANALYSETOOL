@@ -1,4 +1,4 @@
-package model;
+package models;
 
 public class Cylinder extends Shape {
     public static final String name = "Cilinder";

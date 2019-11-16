@@ -1,4 +1,4 @@
-package model;
+package models;
 
 abstract public class Shape {
     private int id;
@@ -18,6 +18,11 @@ abstract public class Shape {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return getId() + " - " + getTitle();
     }
 
     abstract public String getTitle();

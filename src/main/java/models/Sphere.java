@@ -1,4 +1,4 @@
-package model;
+package models;
 
 public class Sphere extends Shape {
     public static final String name = "Bol";
