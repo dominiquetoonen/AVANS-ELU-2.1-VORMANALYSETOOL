@@ -1,49 +1,29 @@
 package views.panels;
 
-import models.Cube;
-import java.awt.*;
-import javax.swing.*;
-import mappers.Shapes;
+import models.Shape;
 import views.components.DefaultPanel;
-import views.components.DefaultButton;
+
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.util.ArrayList;
 
-public class AddCubePanel extends JPanel {
-    private Cube cube;
-    private JFrame frame;
-    private JTextField lengthTextField;
-    private JTextField widthTextField;
-    private JTextField heightTextField;
+public class AddCubePanel extends AddShapePanel {
+    private Shape shape;
 
-    public AddCubePanel(JFrame frame) {
-        cube = new Cube();
-        cube.setType(Cube.name);
-
-        this.frame = frame;
-        lengthTextField = new JTextField();
-        widthTextField = new JTextField();
-        heightTextField = new JTextField();
-
-        setLayout(new GridLayout(3, 2));
-
-        setListeners();
-
-        add(leftTop());
-        add(rightTop());
-        add(leftCenter());
-        add(rightCenter());
-        add(leftBottom());
-        add(rightBottom());
+    public AddCubePanel(JFrame jFrame, Shape shape) {
+        super(jFrame, shape);
+        this.shape = shape;
     }
 
-    private void setListeners() {
+    @Override
+    public void setListeners() {
         lengthTextField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 if (!lengthTextField.getText().equals("")) {
-                    cube.setLength(Double.parseDouble(lengthTextField.getText()));
+                    shape.setLength(Double.parseDouble(lengthTextField.getText()));
                 }
             }
 
@@ -57,11 +37,12 @@ public class AddCubePanel extends JPanel {
 
             }
         });
+
         widthTextField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 if (!widthTextField.getText().equals("")) {
-                    cube.setWidth(Double.parseDouble(widthTextField.getText()));
+                    shape.setWidth(Double.parseDouble(widthTextField.getText()));
                 }
             }
 
@@ -75,11 +56,12 @@ public class AddCubePanel extends JPanel {
 
             }
         });
+
         heightTextField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 if (!heightTextField.getText().equals("")) {
-                    cube.setHeight(Double.parseDouble(heightTextField.getText()));
+                    shape.setHeight(Double.parseDouble(heightTextField.getText()));
                 }
             }
 
@@ -95,74 +77,33 @@ public class AddCubePanel extends JPanel {
         });
     }
 
-    private JPanel leftTop() {
-        JPanel panel = new DefaultPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBorder(new EmptyBorder(20, 20, 10, 20));
+    @Override
+    public ArrayList<JPanel> getTextFields() {
+        ArrayList<JPanel> textFields = new ArrayList<>();
 
-        panel.add(new JLabel("Lengte"));
-        panel.add(lengthTextField);
+        JPanel lengthPanel = new DefaultPanel();
+        JPanel widthPanel = new DefaultPanel();
+        JPanel heightPanel = new DefaultPanel();
 
-        return panel;
-    }
+        lengthPanel.setLayout(new BoxLayout(lengthPanel, BoxLayout.Y_AXIS));
+        lengthPanel.setBorder(new EmptyBorder(20, 20, 10, 20));
+        lengthPanel.add(new JLabel("Lengte"));
+        lengthPanel.add(lengthTextField);
 
-    private JPanel rightTop() {
-        JPanel panel = new DefaultPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBorder(new EmptyBorder(20, 20, 10, 20));
+        widthPanel.setLayout(new BoxLayout(widthPanel, BoxLayout.Y_AXIS));
+        widthPanel.setBorder(new EmptyBorder(20, 20, 10, 20));
+        widthPanel.add(new JLabel("Breedte"));
+        widthPanel.add(widthTextField);
 
-        panel.add(new JLabel("Breedte"));
-        panel.add(widthTextField);
+        heightPanel.setLayout(new BoxLayout(heightPanel, BoxLayout.Y_AXIS));
+        heightPanel.setBorder(new EmptyBorder(20, 20, 10, 20));
+        heightPanel.add(new JLabel("Hoogte"));
+        heightPanel.add(heightTextField);
 
-        return panel;
-    }
+        textFields.add(lengthPanel);
+        textFields.add(widthPanel);
+        textFields.add(heightPanel);
 
-    private JPanel leftCenter() {
-        JPanel panel = new DefaultPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBorder(new EmptyBorder(20, 20, 10, 20));
-
-        panel.add(new JLabel("Hoogte"));
-        panel.add(heightTextField);
-
-        return panel;
-    }
-
-    private JPanel rightCenter() {
-        JPanel panel = new DefaultPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBorder(new EmptyBorder(20, 20, 10, 20));
-
-        return panel;
-    }
-
-    private JPanel leftBottom() {
-        JPanel panel = new DefaultPanel();
-        panel.setLayout(new GridLayout(1, 1));
-        panel.setBorder(new EmptyBorder(10, 20, 20, 20));
-
-        JButton button = new DefaultButton("OK");
-        button.addActionListener(e -> {
-            if (new Shapes().saveCube(cube)) {
-                frame.dispose();
-                MainPanel.refreshList();
-            }
-        });
-        panel.add(button);
-
-        return panel;
-    }
-
-    private JPanel rightBottom() {
-        JPanel panel = new DefaultPanel();
-        panel.setLayout(new GridLayout(1, 1));
-        panel.setBorder(new EmptyBorder(10, 20, 20, 20));
-
-        JButton button = new DefaultButton("Annuleer");
-        button.addActionListener(e -> frame.dispose());
-
-        panel.add(button);
-
-        return panel;
+        return textFields;
     }
 }

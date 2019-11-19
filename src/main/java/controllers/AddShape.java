@@ -2,6 +2,7 @@ package controllers;
 
 import java.awt.*;
 import models.Cube;
+import models.Shape;
 import models.Sphere;
 import javax.swing.*;
 import models.Cylinder;
@@ -15,30 +16,27 @@ public class AddShape {
     public AddShape(JComboBox jComboBox) {
         AddShapeFrame frame;
 
-        switch (Objects.requireNonNull(jComboBox.getSelectedItem()).toString()) {
-            case Cube.name:
-                frame = new AddShapeFrame(Cube.name);
+        switch (Shape.Companion.valueOf(Objects.requireNonNull(jComboBox.getSelectedItem()).toString())) {
+            case CUBE:
+                frame = new AddShapeFrame(Shape.Companion.CUBE.getName());
                 frame.setSize(new Dimension(600, 300));
-                frame.setContentPane(new AddCubePanel(frame));
+                frame.setContentPane(new AddCubePanel(frame, new Cube()));
 
                 SwingUtilities.invokeLater(frame);
-
                 break;
-            case Sphere.name:
-                frame = new AddShapeFrame(Sphere.name);
+            case CYLINDER:
+                frame = new AddShapeFrame(Shape.Companion.SPHERE.getName());
                 frame.setSize(new Dimension(600, 200));
-                frame.setContentPane(new AddSpherePanel(frame));
+                frame.setContentPane(new AddSpherePanel(frame, new Sphere()));
 
                 SwingUtilities.invokeLater(frame);
-
                 break;
-            case Cylinder.name:
-                frame = new AddShapeFrame(Cylinder.name);
+            case SPHERE:
+                frame = new AddShapeFrame(Shape.Companion.CYLINDER.getName());
                 frame.setSize(new Dimension(600, 200));
-                frame.setContentPane(new AddCylinderPanel(frame));
+                frame.setContentPane(new AddCylinderPanel(frame, new Cylinder()));
 
                 SwingUtilities.invokeLater(frame);
-
                 break;
         }
     }

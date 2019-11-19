@@ -5,60 +5,86 @@ import models.Cube;
 import models.Shape;
 import models.Sphere;
 import javax.swing.*;
-
 import mappers.Shapes;
 import models.Cylinder;
 import controllers.AddShape;
-import views.components.DefaultPanel;
-import views.components.DefaultButton;
+import views.components.*;
 
 public class MainPanel extends JPanel {
-    private JPanel leftPanel;
-    private JPanel rightPanel;
-    private static JList jList;
     private static DefaultListModel<String> model;
+    private static String[] shapeList;
+    private static JList jList;
 
-    private JTextField volumeTextField = new JTextField();
-    private JTextField totalVolumeTextField = new JTextField();
+    private JComboBox<String> shapeComboBox = new JComboBox<>();
+    private JTextField volumeTextField = new DefaultTextField();
+    private JTextField totalVolumeTextField = new DefaultTextField();
+
+    private JButton addButton;
+    private JButton loadButton;
+    private JButton totalVolumeButton;
+
+    private JScrollPane jScrollPane = new JScrollPane();
 
     public MainPanel() {
         model = new DefaultListModel<>();
 
-        jList = new JList<>(model);
-        jList.setFont(new Font(getFont().getFontName(), getFont().getStyle(), getFont().getSize() + 2));
+        jList = new DefaultList();
+        jList.setModel(model);
+
         jList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         jList.addListSelectionListener(listSelectionEvent -> {
-
             if (!listSelectionEvent.getValueIsAdjusting()) {
                 double volume = 0.0;
-
                 for (Object s : jList.getSelectedValuesList()) {
                     int shapeId = getIdFromSelection(s);
-
                     Shape shape = new Shapes().findById(shapeId);
                     volume += shape.calculateVolume();
                 }
 
                 volumeTextField.setText(volume + "");
-//                System.out.println(volume);
             }
         });
 
-        refreshList();
+        shapeList = new String[]{
+                Shape.Companion.CUBE.toString(),
+                Shape.Companion.CYLINDER.toString(),
+                Shape.Companion.SPHERE.toString()
+        };
 
-        setLeftPanel();
-        setRightPanel();
+        shapeComboBox.setModel(new DefaultComboBoxModel<>(shapeList));
+
+        volumeTextField.setEditable(false);
+        totalVolumeTextField.setEditable(false);
+
+        addButton = new DefaultButton("VORM TOEVOEGEN");
+        addButton.addActionListener(e -> new AddShape(shapeComboBox));
+
+        loadButton = new DefaultButton("VORM VERWIJDEREN");
+        loadButton.addActionListener(e -> deleteSelectedItems());
+
+        totalVolumeButton = new DefaultButton("TOTALE INHOUD");
+        totalVolumeButton.addActionListener(e -> {
+            double totalVolume = 0.0;
+            for (Shape s : new Shapes().all()) {
+                totalVolume += s.calculateVolume();
+            }
+
+            totalVolumeTextField.setText(totalVolume + "");
+        });
+
+        jScrollPane.setViewportView(jList);
 
         setLayout(new GridLayout(1, 2));
 
-        add(leftPanel);
-        add(rightPanel);
+        add(getLeftPanel());
+        add(getRightPanel());
+
+        refreshList();
     }
 
     public static void refreshList() {
         model.clear();
-
         for (Shape shape : new Shapes().all()) {
             model.addElement(shape.toString());
         }
@@ -66,23 +92,9 @@ public class MainPanel extends JPanel {
         model.lastElement();
     }
 
-    private void setLeftPanel() {
-        leftPanel = new DefaultPanel();
+    private JPanel getLeftPanel() {
+        JPanel leftPanel = new DefaultPanel();
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-
-        String[] shapes = {Cylinder.name, Sphere.name, Cube.name};
-        JComboBox<String> shapeComboBox = new JComboBox<>(shapes);
-
-        volumeTextField.setEnabled(false);
-        volumeTextField.setFont(new Font(getFont().getFontName(), getFont().getStyle(), getFont().getSize() + 2));
-        volumeTextField.setForeground(Color.black);
-
-        totalVolumeTextField.setEnabled(false);
-        totalVolumeTextField.setFont(new Font(getFont().getFontName(), getFont().getStyle(), getFont().getSize() + 2));
-        totalVolumeTextField.setForeground(Color.black);
-
-        JButton addButton = new DefaultButton("Vorm toevoegen");
-        addButton.addActionListener(e -> new AddShape(shapeComboBox));
 
         leftPanel.add(new JLabel("Vorm"));
         leftPanel.add(shapeComboBox);
@@ -91,33 +103,22 @@ public class MainPanel extends JPanel {
         leftPanel.add(new JLabel("Totale inhoud"));
         leftPanel.add(totalVolumeTextField);
         leftPanel.add(addButton);
+
+        return leftPanel;
     }
 
-    private void setRightPanel() {
-        rightPanel = new DefaultPanel();
+    private JPanel getRightPanel() {
+        JPanel rightPanel = new DefaultPanel();
+
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-
-        JScrollPane jScrollPane = new JScrollPane(jList);
-
-        JButton totalVolumeButton = new DefaultButton("Totale inhoud");
-        totalVolumeButton.addActionListener(e -> {
-            double totalVolume = 0.0;
-
-            for (Shape s : new Shapes().all()) {
-                totalVolume += s.calculateVolume();
-            }
-
-            totalVolumeTextField.setText(totalVolume + "");
-//            System.out.println(totalVolume);
-        });
-
-        JButton loadButton = new DefaultButton("Verwijder vorm");
-        loadButton.addActionListener(e -> deleteSelectedItems());
 
         rightPanel.add(jScrollPane, BorderLayout.CENTER);
         rightPanel.add(totalVolumeButton);
         rightPanel.add(loadButton);
+
+        return rightPanel;
     }
+
 
     private static int getIdFromSelection(Object s) {
         return Integer.parseInt(s.toString().split(" - ")[0]);

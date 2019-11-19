@@ -1,30 +1,18 @@
 package models;
 
 public class Cylinder extends Shape {
-    public static final String name = "Cilinder";
-
-    private double radius;
-    private double height;
-
-    public double getRadius() {
-        return radius;
+    public Cylinder() {
+        setType(Companion.CYLINDER.toString());
     }
 
-    public void setRadius(double radius) {
-        this.radius = radius;
-    }
-
-    public double getHeight() {
-        return height;
-    }
-
-    public void setHeight(double height) {
-        this.height = height;
+    @Override
+    public String getName() {
+        return Companion.CYLINDER.getName();
     }
 
     @Override
     public String getTitle() {
-        return getType() + " " + getRadius() + " " + getHeight() + "\n";
+        return getName() + " " + getRadius() + " " + getHeight() + "\n";
     }
 
     @Override

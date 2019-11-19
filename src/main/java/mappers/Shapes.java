@@ -4,9 +4,12 @@ import models.Cube;
 import models.Shape;
 import models.Sphere;
 import models.Cylinder;
+
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.SQLException;
+
+import static models.Shape.Companion.CUBE;
 
 public class Shapes extends AbstractMapper {
     @Override
@@ -39,8 +42,8 @@ public class Shapes extends AbstractMapper {
                 double shapeHeight = resultSet.getDouble("SHAPE_HEIGHT");
                 double shapeRadius = resultSet.getDouble("SHAPE_RADIUS");
 
-                switch (shapeType) {
-                    case Cube.name:
+                switch (Shape.Companion.valueOf(shapeType)) {
+                    case CUBE:
                         Cube cube = new Cube();
                         cube.setId(shapeId);
                         cube.setType(shapeType);
@@ -50,7 +53,8 @@ public class Shapes extends AbstractMapper {
 
                         results.add(cube);
                         break;
-                    case Sphere.name:
+
+                    case SPHERE:
                         Sphere sphere = new Sphere();
                         sphere.setId(shapeId);
                         sphere.setType(shapeType);
@@ -58,7 +62,8 @@ public class Shapes extends AbstractMapper {
 
                         results.add(sphere);
                         break;
-                    case Cylinder.name:
+
+                    case CYLINDER:
                         Cylinder cylinder = new Cylinder();
                         cylinder.setId(shapeId);
                         cylinder.setType(shapeType);
@@ -79,44 +84,10 @@ public class Shapes extends AbstractMapper {
         return results;
     }
 
-    public boolean saveCube(Cube cube) {
+    public boolean save(Shape shape) {
         try {
             connect();
-            int createdRows = stmt.executeUpdate(
-                    "INSERT INTO " + getTableName() + " (SHAPE_TYPE, SHAPE_LENGTH, SHAPE_WIDTH, SHAPE_HEIGHT)" + " VALUES ('" + cube.getType() + "', " + cube.getLength() + ", " + cube.getWidth() + ", " + cube.getHeight() + ")"
-            );
-
-            closeConnection();
-
-            return createdRows > 0;
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public boolean saveSphere(Sphere sphere) {
-        try {
-            connect();
-            int createdRows = stmt.executeUpdate(
-                    "INSERT INTO " + getTableName() + " (SHAPE_TYPE, SHAPE_RADIUS)" + "VALUES ('" + sphere.getType() + "', " + sphere.getRadius() + ")"
-            );
-
-            closeConnection();
-
-            return createdRows > 0;
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public boolean saveCylinder(Cylinder cylinder) {
-        try {
-            connect();
-            int createdRows = stmt.executeUpdate(
-                    "INSERT INTO " + getTableName() + " (SHAPE_TYPE, SHAPE_HEIGHT, SHAPE_RADIUS)" + "VALUES ('" + cylinder.getType() + "', " + cylinder.getHeight() + ", " + cylinder.getRadius() + ")"
-            );
+            int createdRows = stmt.executeUpdate("INSERT INTO " + getTableName() + " (SHAPE_TYPE, SHAPE_LENGTH, SHAPE_WIDTH, SHAPE_HEIGHT, SHAPE_RADIUS)" + " VALUES ('" + shape.getType() + "', " + shape.getLength() + ", " + shape.getWidth() + ", " + shape.getHeight() + ", " + shape.getRadius() + ")");
 
             closeConnection();
 

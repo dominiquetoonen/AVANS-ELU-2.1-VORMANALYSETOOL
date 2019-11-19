@@ -1,21 +1,18 @@
 package models;
 
 public class Sphere extends Shape {
-    public static final String name = "Bol";
-
-    private double radius;
-
-    public double getRadius() {
-        return radius;
+    public Sphere() {
+        setType(Companion.SPHERE.toString());
     }
 
-    public void setRadius(double radius) {
-        this.radius = radius;
+    @Override
+    public String getName() {
+        return Companion.SPHERE.getName();
     }
 
     @Override
     public String getTitle() {
-        return getType() + " " + getRadius() + "\n";
+        return getName() + " " + getRadius() + "\n";
     }
 
     @Override
