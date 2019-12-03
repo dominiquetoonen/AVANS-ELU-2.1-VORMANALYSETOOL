@@ -9,6 +9,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 abstract public class AddShapePanel extends JPanel {
     private Shape shape;
@@ -44,6 +46,10 @@ abstract public class AddShapePanel extends JPanel {
 
         add(OKButtonPanel());
         add(cancelButtonPanel());
+    }
+
+    public Shape getShape() {
+        return this.shape;
     }
 
     private JPanel emptyPanel() {
@@ -84,7 +90,83 @@ abstract public class AddShapePanel extends JPanel {
         return panel;
     }
 
-    abstract public void setListeners();
+    public final void setListeners() {
+        lengthTextField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                if (!lengthTextField.getText().equals("")) {
+                    shape.setLength(Double.parseDouble(lengthTextField.getText()));
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+
+            }
+        });
+
+        widthTextField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                if (!widthTextField.getText().equals("")) {
+                    shape.setWidth(Double.parseDouble(widthTextField.getText()));
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+
+            }
+        });
+
+        heightTextField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                if (!heightTextField.getText().equals("")) {
+                    shape.setHeight(Double.parseDouble(heightTextField.getText()));
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+
+            }
+        });
+
+        radiusTextField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                if (!radiusTextField.getText().equals("")) {
+                    shape.setRadius(Double.parseDouble(radiusTextField.getText()));
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+
+            }
+        });
+    }
 
     abstract public ArrayList<JPanel> getTextFields();
 }

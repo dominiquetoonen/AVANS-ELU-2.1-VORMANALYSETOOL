@@ -1,43 +1,36 @@
 package controllers;
 
 import java.awt.*;
-import models.Cube;
 import models.Shape;
-import models.Sphere;
 import javax.swing.*;
-import models.Cylinder;
 import java.util.Objects;
 import views.AddShapeFrame;
-import views.panels.AddCubePanel;
-import views.panels.AddSpherePanel;
-import views.panels.AddCylinderPanel;
+import views.panels.*;
 
 public class AddShape {
     public AddShape(JComboBox jComboBox) {
-        AddShapeFrame frame;
+        String selectedShape = Objects.requireNonNull(jComboBox.getSelectedItem()).toString();
+        AddShapeFrame frame = new AddShapeFrame(selectedShape);
 
-        switch (Shape.Companion.valueOf(Objects.requireNonNull(jComboBox.getSelectedItem()).toString())) {
-            case CUBE:
-                frame = new AddShapeFrame(Shape.Companion.CUBE.getName());
-                frame.setSize(new Dimension(600, 300));
-                frame.setContentPane(new AddCubePanel(frame, new Cube()));
+        if (selectedShape.equals(Shape.Companion.CUBE.getPrettyName())) {
+            frame.setSize(new Dimension(600, 300));
+            frame.setContentPane(new AddCubePanel(frame));
 
-                SwingUtilities.invokeLater(frame);
-                break;
-            case CYLINDER:
-                frame = new AddShapeFrame(Shape.Companion.SPHERE.getName());
-                frame.setSize(new Dimension(600, 200));
-                frame.setContentPane(new AddSpherePanel(frame, new Sphere()));
+        } else if (selectedShape.equals(Shape.Companion.CYLINDER.getPrettyName())) {
+            frame.setSize(new Dimension(600, 200));
+            frame.setContentPane(new AddCylinderPanel(frame));
 
-                SwingUtilities.invokeLater(frame);
-                break;
-            case SPHERE:
-                frame = new AddShapeFrame(Shape.Companion.CYLINDER.getName());
-                frame.setSize(new Dimension(600, 200));
-                frame.setContentPane(new AddCylinderPanel(frame, new Cylinder()));
+        } else if (selectedShape.equals(Shape.Companion.SPHERE.getPrettyName())) {
+            frame.setSize(new Dimension(600, 200));
+            frame.setContentPane(new AddSpherePanel(frame));
 
-                SwingUtilities.invokeLater(frame);
-                break;
+        } else if (selectedShape.equals(Shape.Companion.CONE.getPrettyName())) {
+            frame.setSize(new Dimension(600, 200));
+            frame.setContentPane(new AddConePanel(frame));
+
+        } else if (selectedShape.equals(Shape.Companion.PYRAMID.getPrettyName())) {
+            frame.setSize(new Dimension(600, 300));
+            frame.setContentPane(new AddPyramidPanel(frame));
         }
     }
 }

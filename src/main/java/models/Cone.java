@@ -1,13 +1,13 @@
 package models;
 
-public class Cylinder extends Shape {
-    public Cylinder() {
-        setType(Companion.CYLINDER.toString());
+public class Cone extends Shape {
+    public Cone() {
+        setType(Companion.CONE.toString());
     }
 
     @Override
     public String getName() {
-        return Companion.CYLINDER.getPrettyName();
+        return Companion.CONE.getPrettyName();
     }
 
     @Override
@@ -17,6 +17,6 @@ public class Cylinder extends Shape {
 
     @Override
     public double calculateVolume() {
-        return Math.PI * (getRadius() * getRadius()) * getHeight();
+        return (1.0 / 3.0) * Math.PI * (getRadius() * getRadius()) * getHeight();
     }
 }

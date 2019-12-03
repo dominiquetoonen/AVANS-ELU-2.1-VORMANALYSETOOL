@@ -1,14 +1,16 @@
 package views.panels;
 
-import models.Cylinder;
+import models.Cone;
+import models.Shape;
 import views.components.DefaultPanel;
 
 import javax.swing.*;
 import java.util.ArrayList;
 
-public class AddCylinderPanel extends AddShapePanel {
-    public AddCylinderPanel(JFrame jFrame) {
-        super(jFrame, new Cylinder());
+public class AddConePanel extends AddShapePanel {
+
+    public AddConePanel(JFrame jFrame) {
+        super(jFrame, new Cone());
     }
 
     @Override

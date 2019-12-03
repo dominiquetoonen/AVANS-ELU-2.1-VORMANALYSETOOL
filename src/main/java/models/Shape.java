@@ -1,18 +1,32 @@
 package models;
 
+import java.util.ArrayList;
+
 abstract public class Shape {
     public enum Companion {
         CUBE("Blok"),
         CYLINDER("Cylinder"),
-        SPHERE("Bol");
+        SPHERE("Bol"),
+        CONE("Kegel"),
+        PYRAMID("Pyramide");
 
-        private final String name;
-        Companion(String name) {
-            this.name = name;
+        private final String prettyName;
+
+        Companion(String prettyName) {
+            this.prettyName = prettyName;
         }
 
-        public String getName() {
-            return name;
+        public String getPrettyName() {
+            return prettyName;
+        }
+
+        public static ArrayList<String> getPrettyNames() {
+            ArrayList<String> names = new ArrayList<>();
+            for (Companion value : Companion.values()) {
+                names.add(value.getPrettyName());
+            }
+
+            return names;
         }
     }
 

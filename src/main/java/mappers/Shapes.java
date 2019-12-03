@@ -1,15 +1,10 @@
 package mappers;
 
-import models.Cube;
-import models.Shape;
-import models.Sphere;
-import models.Cylinder;
+import models.*;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.SQLException;
-
-import static models.Shape.Companion.CUBE;
 
 public class Shapes extends AbstractMapper {
     @Override
@@ -32,7 +27,7 @@ public class Shapes extends AbstractMapper {
 
         try {
             connect();
-            ResultSet resultSet = stmt.executeQuery("SELECT * FROM " + getTableName());
+            ResultSet resultSet = getStatement().executeQuery("SELECT * FROM " + getTableName());
 
             while (resultSet.next()) {
                 int shapeId = resultSet.getInt("SHAPE_ID");
@@ -72,6 +67,27 @@ public class Shapes extends AbstractMapper {
 
                         results.add(cylinder);
                         break;
+
+                    case CONE:
+                        Cone cone = new Cone();
+                        cone.setId(shapeId);
+                        cone.setType(shapeType);
+                        cone.setRadius(shapeRadius);
+                        cone.setHeight(shapeHeight);
+
+                        results.add(cone);
+                        break;
+
+                    case PYRAMID:
+                        Pyramid pyramid = new Pyramid();
+                        pyramid.setId(shapeId);
+                        pyramid.setType(shapeType);
+                        pyramid.setLength(shapeLength);
+                        pyramid.setWidth(shapeWidth);
+                        pyramid.setHeight(shapeHeight);
+
+                        results.add(pyramid);
+                        break;
                 }
             }
 
@@ -87,11 +103,12 @@ public class Shapes extends AbstractMapper {
     public boolean save(Shape shape) {
         try {
             connect();
-            int createdRows = stmt.executeUpdate("INSERT INTO " + getTableName() + " (SHAPE_TYPE, SHAPE_LENGTH, SHAPE_WIDTH, SHAPE_HEIGHT, SHAPE_RADIUS)" + " VALUES ('" + shape.getType() + "', " + shape.getLength() + ", " + shape.getWidth() + ", " + shape.getHeight() + ", " + shape.getRadius() + ")");
+            int createdRows = getStatement().executeUpdate("INSERT INTO " + getTableName() + " (SHAPE_TYPE, SHAPE_LENGTH, SHAPE_WIDTH, SHAPE_HEIGHT, SHAPE_RADIUS)" + " VALUES ('" + shape.getType() + "', " + shape.getLength() + ", " + shape.getWidth() + ", " + shape.getHeight() + ", " + shape.getRadius() + ")");
 
             closeConnection();
 
             return createdRows > 0;
+
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }

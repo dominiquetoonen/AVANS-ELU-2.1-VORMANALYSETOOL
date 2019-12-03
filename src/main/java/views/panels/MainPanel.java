@@ -1,23 +1,24 @@
 package views.panels;
 
 import java.awt.*;
-import models.Cube;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
+
 import models.Shape;
-import models.Sphere;
 import javax.swing.*;
 import mappers.Shapes;
-import models.Cylinder;
 import controllers.AddShape;
 import views.components.*;
 
 public class MainPanel extends JPanel {
-    private static DefaultListModel<String> model;
-    private static String[] shapeList;
     private static JList jList;
+    private static DefaultListModel<String> model;
+    private static String[] shapeList = Shape.Companion.getPrettyNames().toArray(new String[0]);
 
     private JComboBox<String> shapeComboBox = new JComboBox<>();
-    private JTextField volumeTextField = new DefaultTextField();
-    private JTextField totalVolumeTextField = new DefaultTextField();
+    private static JTextField volumeTextField = new DefaultTextField();
+    private static JTextField totalVolumeTextField = new DefaultTextField();
 
     private JButton addButton;
     private JButton loadButton;
@@ -42,15 +43,13 @@ public class MainPanel extends JPanel {
                     volume += shape.calculateVolume();
                 }
 
-                volumeTextField.setText(volume + "");
+                DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.getDefault());
+                otherSymbols.setDecimalSeparator('.');
+                otherSymbols.setGroupingSeparator(',');
+                DecimalFormat df = new DecimalFormat("#.##", otherSymbols);
+                volumeTextField.setText(df.format(volume));
             }
         });
-
-        shapeList = new String[]{
-                Shape.Companion.CUBE.toString(),
-                Shape.Companion.CYLINDER.toString(),
-                Shape.Companion.SPHERE.toString()
-        };
 
         shapeComboBox.setModel(new DefaultComboBoxModel<>(shapeList));
 
@@ -70,7 +69,12 @@ public class MainPanel extends JPanel {
                 totalVolume += s.calculateVolume();
             }
 
-            totalVolumeTextField.setText(totalVolume + "");
+            DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.getDefault());
+            otherSymbols.setDecimalSeparator('.');
+            otherSymbols.setGroupingSeparator(',');
+            DecimalFormat df = new DecimalFormat("#.##", otherSymbols);
+
+            totalVolumeTextField.setText(df.format(totalVolume));
         });
 
         jScrollPane.setViewportView(jList);
@@ -89,7 +93,10 @@ public class MainPanel extends JPanel {
             model.addElement(shape.toString());
         }
 
-        model.lastElement();
+        volumeTextField.setText("");
+        totalVolumeTextField.setText("");
+
+//        model.lastElement();
     }
 
     private JPanel getLeftPanel() {
@@ -98,9 +105,9 @@ public class MainPanel extends JPanel {
 
         leftPanel.add(new JLabel("Vorm"));
         leftPanel.add(shapeComboBox);
-        leftPanel.add(new JLabel("Inhoud"));
+        leftPanel.add(new JLabel("Inhoud (cm)"));
         leftPanel.add(volumeTextField);
-        leftPanel.add(new JLabel("Totale inhoud"));
+        leftPanel.add(new JLabel("Totale inhoud (cm)"));
         leftPanel.add(totalVolumeTextField);
         leftPanel.add(addButton);
 
